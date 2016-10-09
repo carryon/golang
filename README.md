@@ -1,7 +1,6 @@
-# golang
-
-Handling 1 Million Requests per Minute with Go
+# Handling 1 Million Requests per Minute with Go
 Jul 6, 2015
+
 Here at Malwarebytes we are experiencing phenomenal growth, and since I have joined the company over 1 year ago in the Silicon Valley, one my main responsibilities has been to architect and develop several systems to power a fast-growing security company and all the needed infrastructure to support a product that is used by millions of people every single day. I have worked in the anti-virus and anti-malware industry for over 12 years in a few different companies, and I knew how complex these systems could end up being due to the massive amount of data we handle daily.
 
 What is interesting is that for the last 9 years or so, all the web backend development that I have been involved in has been mostly done in Ruby on Rails. Don’t take me wrong, I love Ruby on Rails and I believe it’s an amazing environment, but after a while you start thinking and designing systems in the ruby way, and you forget how efficient and simple your software architecture could have been if you could leverage multi-threading, parallelization, fast executions and small memory overhead. For many years, I was a C/C++, Delphi and C# developer, and I just started realizing how less complex things could be with the right tool for the job.
@@ -25,11 +24,12 @@ But since the beginning, our team knew that we should do this in Go because duri
 
 We started by creating a few structures to define the web request payload that we would be receiving through the POST calls, and a method to upload it into our S3 bucket.
 
-type PayloadCollection struct {
+' type PayloadCollection struct {
 	WindowsVersion  string    `json:"version"`
 	Token           string    `json:"token"`
 	Payloads        []Payload `json:"data"`
 }
+
 
 type Payload struct {
     // [redacted]
@@ -53,7 +53,8 @@ func (p *Payload) UploadToS3() error {
 	var contentType = "application/octet-stream"
 
 	return bucket.PutReader(storage_path, b, int64(b.Len()), contentType, acl, s3.Options{})
-}
+} '
+
 Naive approach to Go routines
 Initially we took a very naive implementation of the POST handler, just trying to parallelize the job processing into a simple goroutine:
 
